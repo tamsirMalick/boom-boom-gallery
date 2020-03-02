@@ -1,8 +1,12 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.xml.bind.annotation.XmlTransient;
+
+
 
 
 /**
@@ -10,7 +14,10 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name="Image.findAll", query="SELECT i FROM Image i")
+@NamedQueries({
+		@NamedQuery(name="Image.findAll", query="SELECT i FROM Image i"),
+		@NamedQuery(name="finfImageById", query="SELECT i FROM Image i WHERE i.imageID=:id")
+		})
 public class Image implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -18,25 +25,27 @@ public class Image implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int imageID;
 
-	private Timestamp created;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Date created;
 
 	private String description;
 
 	private double heigth;
 
 	@Lob
-	@Column(name="image_file")
-	private byte[] imageFile;
+	@Column(name="image_path")
+	private String imagePath;
 
-	private Timestamp modified;
-
-	private byte shared;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modified;
 
 	private String title;
 
 	private double width;
 
 	//bi-directional many-to-one association to Album
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name="album_id")
 	private Album album;
@@ -47,6 +56,7 @@ public class Image implements Serializable {
 	private Category category;
 
 	//bi-directional many-to-one association to User
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name="userid")
 	private User user;
@@ -62,11 +72,11 @@ public class Image implements Serializable {
 		this.imageID = imageID;
 	}
 
-	public Timestamp getCreated() {
+	public Date getCreated() {
 		return this.created;
 	}
 
-	public void setCreated(Timestamp created) {
+	public void setCreated(Date created) {
 		this.created = created;
 	}
 
@@ -86,29 +96,22 @@ public class Image implements Serializable {
 		this.heigth = heigth;
 	}
 
-	public byte[] getImageFile() {
-		return this.imageFile;
+	public String getImagePath() {
+		return imagePath;
 	}
 
-	public void setImageFile(byte[] imageFile) {
-		this.imageFile = imageFile;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
-	public Timestamp getModified() {
+	public Date getModified() {
 		return this.modified;
 	}
 
-	public void setModified(Timestamp modified) {
+	public void setModified(Date modified) {
 		this.modified = modified;
 	}
 
-	public byte getShared() {
-		return this.shared;
-	}
-
-	public void setShared(byte shared) {
-		this.shared = shared;
-	}
 
 	public String getTitle() {
 		return this.title;

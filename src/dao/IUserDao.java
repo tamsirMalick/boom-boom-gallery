@@ -1,15 +1,18 @@
 package dao;
 
 import java.util.List;
-import javax.ejb.Remote;
+
+import javax.ejb.Local;
+
 import entities.User;
 
-@Remote
+@Local
 public interface IUserDao {
-	public void addUser(User user);
-	public User updatUser(User user);
-	public void deleteUser(int userId);
-	public User findUserById(int userId);
-	public List<User> findAll(); 
+	void addUser(User user);
+	void updatUser(User user);
+	void deleteUser(User user);
+	User findUserById(int userId);
+	public List<User> findAll();
+	User findUserByUsernammeAndPassword(String username, String password);
 
 }

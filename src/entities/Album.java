@@ -21,6 +21,8 @@ public class Album implements Serializable {
 
 	@Column(name="album_name")
 	private String albumName;
+	
+	private boolean shared;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -28,7 +30,7 @@ public class Album implements Serializable {
 	private User user;
 
 	//bi-directional many-to-one association to Image
-	@OneToMany(mappedBy="album")
+	@OneToMany(mappedBy="album", fetch=FetchType.LAZY)
 	private List<Image> images;
 
 	public Album() {
@@ -50,6 +52,14 @@ public class Album implements Serializable {
 		this.albumName = albumName;
 	}
 
+	public boolean isShared() {
+		return shared;
+	}
+
+	public void setShared(boolean shared) {
+		this.shared = shared;
+	}
+	
 	public User getUser() {
 		return this.user;
 	}

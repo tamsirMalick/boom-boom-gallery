@@ -1,0 +1,49 @@
+package services;
+
+import java.util.List;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.jws.Oneway;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+import dao.IAlbumDao;
+import entities.Album;
+
+@WebService()
+@Stateless
+public class AlbumWS {
+	
+	@EJB
+	private IAlbumDao dao;
+	
+	@WebMethod(operationName="addAlbum")
+	@Oneway
+	public void addAlbum(Album Album) {
+		dao.addAlbum(Album);
+	}
+	
+	@WebMethod(operationName="updateAlbum")
+	@Oneway
+	public void updateAlbum(Album Album) {
+		dao.updateAlbum(Album);
+	}
+	
+	@WebMethod(operationName="deleteAlbum")
+	@Oneway
+	public void deleteAlbum(Album Album) {
+		dao.deleteAlbum(Album);
+	}
+	
+	@WebMethod(operationName="findAlbumById")
+	public void findUserById(int AlbumId) {
+		dao.getAlbumById(AlbumId);
+	}
+	
+	@WebMethod(operationName="findAll")
+	public List<Album> findAll() {
+		return dao.getAll(); 
+	}
+	
+}

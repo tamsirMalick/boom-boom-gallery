@@ -10,37 +10,45 @@ import javax.persistence.TypedQuery;
 import entities.User;
 
 @Stateless
-public class UserDaoImp {
+public class UserDaoImp implements IUserDao {
 	
-	@PersistenceContext(name="Boomboom_gallery")
+	@PersistenceContext
 	private EntityManager em;
-	private TypedQuery<User> query; 
-
-
+	private TypedQuery<User> query;
+	
+	@Override
 	public void addUser(User user) {
-		em.persist(user);
+		em.persist(user);	
 	}
-
-
-	public User updatUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	@Override
+	public void updatUser(User user) {
+		 em.merge(user);
 	}
-
-	public void deleteUser(int userId) {
-		// TODO Auto-generated method stub
+	
+	@Override
+	public void deleteUser(User user) {
+		em.remove(em.merge(user));
 		
 	}
-
-
+	
+	@Override
 	public User findUserById(int userId) {
-		return null;
+		return em.find(User.class, userId);
 	}
-
-
+	
+	@Override
 	public List<User> findAll() {
 		query = em.createNamedQuery("User.findAll", User.class);
 		return query.getResultList();
+	}
+	
+	@Override
+	public User findUserByUsernammeAndPassword(String username, String password) {
+		return (User) em.createNamedQuery("User.findUserByUsernammeAndPassword")
+		.setParameter("username", username)
+		.setParameter("password", password)
+		.getSingleResult();		
 	}
 
 }

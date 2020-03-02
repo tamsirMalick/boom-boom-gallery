@@ -3,7 +3,6 @@ package entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -13,9 +12,16 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+	@NamedQuery(name="User.findAll", query="SELECT u FROM User u"),
+	@NamedQuery(name="User.findById", query="SELECT u FROM User u WHERE u.userid=:id"),
+	@NamedQuery(name="User.findUserByUsernammeAndPassword", query="SELECT u FROM User u WHERE u.username=:username AND u.password=:password")
 })
 public class User implements Serializable {
+//	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,15 +32,15 @@ public class User implements Serializable {
 
 	private String password;
 
-	@Lob
-	private byte[] photo;
+	private String photoUrl;
+	
 
 	private String role;
 
 	private String username;
 
 	//bi-directional many-to-one association to Album
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
 	private List<Album> albums;
 
 	//bi-directional many-to-one association to Image
@@ -43,6 +49,16 @@ public class User implements Serializable {
 
 	public User() {
 	}
+	
+	
+
+	public User(String username, String password) {
+		super();
+		this.password = password;
+		this.username = username;
+	}
+
+
 
 	public int getUserid() {
 		return this.userid;
@@ -68,12 +84,12 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public byte[] getPhoto() {
-		return this.photo;
+	public String getPhotoUrl() {
+		return photoUrl;
 	}
 
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
 
 	public String getRole() {
@@ -138,8 +154,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [userid=" + userid + ", email=" + email + ", password=" + password + ", photo="
-				+ Arrays.toString(photo) + ", role=" + role + ", username=" + username + ", albums=" + albums
+		return "User [userid=" + userid + ", email=" + email + ", password=" + password + ", photo="+", role=" + role + ", username=" + username + ", albums=" + albums
 				+ ", images=" + images + "]";
 	}
 	
