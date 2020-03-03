@@ -40,7 +40,7 @@ public class User implements Serializable {
 	private String username;
 
 	//bi-directional many-to-one association to Album
-	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
 	private List<Album> albums;
 
 	//bi-directional many-to-one association to Image

@@ -37,13 +37,13 @@ public class ImageWS {
 	}
 	
 	@WebMethod(operationName="findImageById")
-	public void findUserById(int imageId) {
+	public void findImageById(int imageId) {
 		dao.findImageById(imageId);
 	}
 	
 	@WebMethod(operationName="findAll")
-	public List<Image> findAll() {
-		return dao.findAll(); 
+	public List<Image> getAll() {
+		return dao.getAll(); 
 	}
 	
 }

@@ -14,6 +14,7 @@ public class AlbumDaoImp implements IAlbumDao {
 	
 	@PersistenceContext
 	private EntityManager em;
+	TypedQuery<Album> query;
 
 	@Override
 	public void addAlbum(Album album) {
@@ -40,8 +41,16 @@ public class AlbumDaoImp implements IAlbumDao {
 
 	@Override
 	public List<Album> getAll() {
-		TypedQuery<Album> query = em.createNamedQuery("Album.findAll", Album.class);
+		query = em.createNamedQuery("Album.findAll", Album.class);
 		return query.getResultList();
+	}
+
+	@Override
+	public List<Album> getAllPhotoByAlbumName(String albumName) {
+		return em.createNamedQuery("Album.getAllPhotoByAlbumName", Album.class)
+				.setParameter("albumName", albumName)
+				.getResultList();
+
 	}
 
 }

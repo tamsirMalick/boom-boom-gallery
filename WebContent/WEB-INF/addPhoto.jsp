@@ -33,7 +33,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="width" class="text-info">Largeur:</label><br>
-                                <input type="number" name="heigth" id="width" class="form-control">
+                                <input type="number" name="width" id="width" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="photo" class="text-info">Selectioner une photo:</label><br>

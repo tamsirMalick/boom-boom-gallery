@@ -17,7 +17,7 @@
             <div id="acount-row" class="row justify-content-center align-items-center">
                 <div id="acount-column" class="col-md-6">
                     <div id="acount-box" class="col-md-12">
-                        <form id="acount-form" class="form" action="gallery" method="post" enctype="multipart/form-data">
+                        <form id="acount-form" class="form" action="createAcount" method="post" enctype="multipart/form-data">
                             <h3 class="text-center text-info">Inscription</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Username:</label><br>

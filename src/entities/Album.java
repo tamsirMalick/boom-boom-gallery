@@ -10,7 +10,10 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Album.findAll", query="SELECT a FROM Album a")
+@NamedQueries({
+	@NamedQuery(name="Album.findAll", query="SELECT a FROM Album a"),
+	@NamedQuery(name="getAllPhotoByAlbumName", query="SELECT a.images FROM Album a WHERE a.albumName=:name")
+	})
 public class Album implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +33,7 @@ public class Album implements Serializable {
 	private User user;
 
 	//bi-directional many-to-one association to Image
-	@OneToMany(mappedBy="album", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="album", fetch=FetchType.EAGER)
 	private List<Image> images;
 
 	public Album() {
@@ -90,4 +93,11 @@ public class Album implements Serializable {
 		return image;
 	}
 
+	@Override
+	public String toString() {
+		return "Album [albumId=" + albumId + ", albumName=" + albumName + ", shared=" + shared + ", user=" + user
+				+ ", images=" + images + "]";
+	}
+
+	
 }

@@ -37,13 +37,18 @@ public class AlbumWS {
 	}
 	
 	@WebMethod(operationName="findAlbumById")
-	public void findUserById(int AlbumId) {
-		dao.getAlbumById(AlbumId);
+	public Album findAlbumById(int AlbumId) {
+		return dao.getAlbumById(AlbumId);
 	}
 	
 	@WebMethod(operationName="findAll")
 	public List<Album> findAll() {
 		return dao.getAll(); 
+	}
+	
+	@WebMethod(operationName="getAllImageByAlbumName")
+	public List<Album> getAllImageByAlbumName(String albumName) {
+		return dao.getAllPhotoByAlbumName(albumName); 
 	}
 	
 }

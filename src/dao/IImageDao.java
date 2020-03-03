@@ -12,5 +12,5 @@ public interface IImageDao {
 	void updateImage(Image image);
 	void deleteImage(Image image);
 	Image findImageById(int imageId);
-	List<Image> findAll();
+	List<Image> getAll();
 }

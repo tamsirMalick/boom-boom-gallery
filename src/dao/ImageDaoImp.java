@@ -14,7 +14,6 @@ public class ImageDaoImp implements IImageDao{
 	
 	@PersistenceContext
 	private EntityManager em;
-	private TypedQuery<Image> query;
 
 	@Override
 	public void addImage(Image image) {
@@ -35,8 +34,8 @@ public class ImageDaoImp implements IImageDao{
 	}
 
 	@Override
-	public List<Image> findAll() {
-		query = em.createNamedQuery("image.findAll", Image.class);
+	public List<Image> getAll() {
+		TypedQuery<Image> query = em.createNamedQuery("Image.findAll", Image.class);
 		return query.getResultList();
 	}
 

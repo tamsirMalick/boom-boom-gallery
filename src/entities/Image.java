@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @NamedQueries({
 		@NamedQuery(name="Image.findAll", query="SELECT i FROM Image i"),
-		@NamedQuery(name="finfImageById", query="SELECT i FROM Image i WHERE i.imageID=:id")
+		@NamedQuery(name="findImageById", query="SELECT i FROM Image i WHERE i.imageID=:id")
 		})
 public class Image implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +31,7 @@ public class Image implements Serializable {
 
 	private String description;
 
-	private double heigth;
+	private int heigth;
 
 	@Lob
 	@Column(name="image_path")
@@ -42,7 +42,7 @@ public class Image implements Serializable {
 
 	private String title;
 
-	private double width;
+	private int width;
 
 	//bi-directional many-to-one association to Album
 	@XmlTransient
@@ -92,7 +92,7 @@ public class Image implements Serializable {
 		return this.heigth;
 	}
 
-	public void setHeigth(double heigth) {
+	public void setHeigth(int heigth) {
 		this.heigth = heigth;
 	}
 
@@ -125,7 +125,7 @@ public class Image implements Serializable {
 		return this.width;
 	}
 
-	public void setWidth(double width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
@@ -152,5 +152,16 @@ public class Image implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "Image [imageID=" + imageID + ", created=" + created + ", description=" + description + ", heigth="
+				+ heigth + ", imagePath=" + imagePath + ", modified=" + modified + ", title=" + title + ", width="
+				+ width + ", album=" + album + ", user=" + user + "]";
+	}
+
+	
+	
+	
 
 }

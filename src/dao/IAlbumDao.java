@@ -13,4 +13,5 @@ public interface IAlbumDao {
 	void deleteAlbum(Album album);
 	Album getAlbumById(int albumId);
 	List<Album> getAll();
+	List<Album> getAllPhotoByAlbumName(String albumName);
 }
