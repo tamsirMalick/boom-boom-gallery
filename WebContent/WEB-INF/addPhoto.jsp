@@ -17,33 +17,75 @@
             <div id="acount-row" class="row justify-content-center align-items-center">
                 <div id="acount-column" class="col-md-6">
                     <div id="acount-box" class="col-md-12">
-                        <form id="acount-form" class="form" action="addPhoto" method="post" enctype="multipart/form-data">
+                    	<c:choose>
+                    		<c:when test="${!empty img}">
+                    		<form id="acount-form" class="form" action="update" method="post" enctype="multipart/form-data">
+		                            <h3 class="text-center text-info">Modifier la photo</h3>
+		                            <div class="form-group">
+		                                <label for="title" class="text-info">Titre:</label><br>
+		                                <input type="text" name="title" id="title" class="form-control" value="${img.title}" required>
+		                            </div>
+		                            <div class="form-group">
+		                                <label for="description" class="text-info">Description:</label><br>
+		                                <input type="text" name="description" id="description" class="form-control" value="${img.description}" required>
+		                            </div>
+		                            <div class="form-group">
+		                                <label for="higth" class="text-info">Hauteur:</label><br>
+		                                <input type="number" name="heigth" id="heigth" class="form-control" value="${img.heigth}" required>
+		                            </div>
+		                            <div class="form-group">
+		                                <label for="width" class="text-info">Largeur:</label><br>
+		                                <input type="number" name="width" id="width" class="form-control" value="${img.width}" required>
+		                            </div>
+		                            <div class="form-group">
+		                                <label for="photo" class="text-info">Selectioner une photo:</label><br>
+		                                <input type="file" name="photo" id="photo" class="form-control">
+		                            </div>
+		                            
+		                            <div class="form-group">
+		                                <label for="album" class="text-info">Selectioner une album:</label><br>
+		                                <select class="form-control" name="album" id="album">
+		                                <c:forEach var="album" items="${albumsUser}">
+		                                	<option value="${album.albumId}">${album.albumName}</option>
+		                                </c:forEach>
+		                                </select>
+		                            </div>
+		                            
+		                            <div class="form-group">
+		                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Modifier">
+		                                <input type="reset" name="submit" class="btn btn-info btn-md" value="Annuler">
+		                            </div>
+                        		</form>
+                    			
+                    		</c:when>
+                    		<c:otherwise>
+                    			<form id="acount-form" class="form" action="addPhoto" method="post" enctype="multipart/form-data">
                             <h3 class="text-center text-info">Nouvelle photo</h3>
                             <div class="form-group">
                                 <label for="title" class="text-info">Titre:</label><br>
-                                <input type="text" name="title" id="title" class="form-control">
+                                <input type="text" name="title" id="title" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="description" class="text-info">Description:</label><br>
-                                <input type="text" name="description" id="description" class="form-control">
+                                <input type="text" name="description" id="description" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="higth" class="text-info">Hauteur:</label><br>
-                                <input type="number" name="heigth" id="heigth" class="form-control">
+                                <input type="number" name="heigth" id="heigth" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="width" class="text-info">Largeur:</label><br>
-                                <input type="number" name="width" id="width" class="form-control">
+                                <input type="number" name="width" id="width" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="photo" class="text-info">Selectioner une photo:</label><br>
-                                <input type="file" name="photo" id="photo" class="form-control">
+                                <input type="file" name="photo" id="photo" class="form-control" required>
                             </div>
                             
                             <div class="form-group">
                                 <label for="album" class="text-info">Selectioner une album:</label><br>
                                 <select class="form-control" name="album" id="album">
-                                <c:forEach var="album" items="${albums}">
+                                <c:forEach var="album" items="${albumsUser}">
                                 	<option value="${album.albumId}">${album.albumName}</option>
                                 </c:forEach>
                                 </select>
@@ -53,6 +95,9 @@
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="Valider">
                             </div>
                         </form>
+                    		</c:otherwise>
+                    	</c:choose>
+                        
                     </div>
                 </div>
             </div>

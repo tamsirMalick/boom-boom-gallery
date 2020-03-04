@@ -37,8 +37,8 @@ public class UserWS {
 	}
 	
 	@WebMethod(operationName="findUserById")
-	public void findUserById(int userId) {
-		dao.findUserById(userId);
+	public User findUserById(int userId) {
+		return dao.findUserById(userId);
 	}
 	
 	@WebMethod(operationName="findAll")

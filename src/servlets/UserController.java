@@ -3,7 +3,6 @@ package servlets;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 import java.io.*;
 
 import javax.ejb.EJB;
@@ -27,9 +26,8 @@ import services.UserWS;
  * Servlet implementation class UserController
  */
 @WebServlet(urlPatterns = { "", "/index", "/accueil", "/login", "/createAcount", "/gallery", "/deconnection",
-		"/addalbum", "/addPhoto" })
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024
-		* 50, location = "C:\\fichierstemp")
+		"/addalbum", "/addPhoto", "/image-detail", "/delete", "/update", "/userslist", "/deleteuser", "/updateuser" })
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 * 50, location = "C:\\fichierstemp")
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGE_ACCUEIL = "/WEB-INF/accueil.jsp";
@@ -39,9 +37,13 @@ public class UserController extends HttpServlet {
 	private static final String PAGE_ACOUNT = "/WEB-INF/createAcount.jsp";
 	private static final String PAGE_AJOUT_ALBUM = "/WEB-INF/addAlbum.jsp";
 	private static final String PAGE_AJOUT_PHOTO = "/WEB-INF/addPhoto.jsp";
+	private static final String PAGE_IMAGE_DETAIL = "/WEB-INF/image-detail.jsp";
+	private static final String PAGE_USERS_LIST = "/WEB-INF/userslist.jsp";
 
 	private static final int TAILLE_TAMPON = 10240;
 	private static final String CHEMIN_FICHIERS = "C:\\JavaEE\\java_ee_project\\Boomboom_gallery\\WebContent\\images\\";
+	
+	private HttpSession session;
 
 	@EJB
 	private UserWS userDao;
@@ -68,36 +70,101 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String requestedUrl = request.getServletPath();
-		String alb = request.getParameter("album");
-		request.setAttribute("albumName", alb);;
-		
+		HttpSession session = request.getSession();
+		String albumName = request.getParameter("album");
+		request.setAttribute("albumName", albumName);
 
-		if (requestedUrl.equals("/gallery") || requestedUrl.equals("/index") || requestedUrl.equals("")) {
+		if (requestedUrl.equals("/gallery") || requestedUrl.equals("/index") || requestedUrl.equals("")) 
+		{
 			request.setAttribute("images", imageDao.getAll());
 			request.setAttribute("albums", albumDao.findAll());		
 			getServletContext().getRequestDispatcher(PAGE_INDEX).forward(request, response);
-		}else if (requestedUrl.equals("/login")) {
-			getServletContext().getRequestDispatcher(PAGE_LOGIN).forward(request, response);
-
-		} else if (requestedUrl.equals("/createAcount")) {
+		}
+		else if (requestedUrl.equals("/updateuser")) 
+		{
+			int userid = Integer.parseInt(request.getParameter("userId"));
+			request.setAttribute("use", userDao.findUserById(userid));
 			getServletContext().getRequestDispatcher(PAGE_ACOUNT).forward(request, response);
 
-		} else if (requestedUrl.equals("/accueil")) {
+		}
+		else if (requestedUrl.equals("/deleteuser")) 
+		{
+			int userid = Integer.parseInt(request.getParameter("userId"));
+			userDao.deleteUser(userDao.findUserById(userid));
+			request.setAttribute("users", userDao.findAll());
+			response.sendRedirect(request.getContextPath() + "/userslist");
+
+		}
+		else if (requestedUrl.equals("/userslist")) 
+		{
+			request.setAttribute("users", userDao.findAll());
+			getServletContext().getRequestDispatcher(PAGE_USERS_LIST).forward(request, response);
+
+		}
+		else if (requestedUrl.equals("/login")) 
+		{
+			getServletContext().getRequestDispatcher(PAGE_LOGIN).forward(request, response);
+
+		}
+		else if (requestedUrl.equals("/createAcount")) 
+		{
+			getServletContext().getRequestDispatcher(PAGE_ACOUNT).forward(request, response);
+
+		} 
+		else if (requestedUrl.equals("/accueil")) 
+		{
 			request.setAttribute("images", imageDao.getAll());
 			request.setAttribute("users", userDao.findAll());
 			getServletContext().getRequestDispatcher(PAGE_ACCUEIL).forward(request, response);
-		} else if (requestedUrl.equals("/addalbum")) {
-			getServletContext().getRequestDispatcher(PAGE_AJOUT_ALBUM).forward(request, response);
-		} else if (requestedUrl.equals("/addPhoto")) {
+		} 
+		else if (requestedUrl.equals("/delete")) 
+		{
+			int imageId = Integer.parseInt(request.getParameter("imageId"));
+			imageDao.deleteImage(imageDao.findImageById(imageId));
+			
 			request.setAttribute("images", imageDao.getAll());
 			request.setAttribute("albums", albumDao.findAll());
+			response.sendRedirect(request.getContextPath() + "/index");
+		} 
+		else if (requestedUrl.equals("/addalbum")) 
+		{
+			getServletContext().getRequestDispatcher(PAGE_AJOUT_ALBUM).forward(request, response);
+		}
+		else if (requestedUrl.equals("/update")) {
+			if(request.getParameter("imageId") != null) 
+			{
+				int imageId = Integer.parseInt(request.getParameter("imageId"));
+				Image img = imageDao.findImageById(imageId);
+				if(img != null) 
+				{
+					request.setAttribute("img", img);
+				}
+			}
+			User user = (User) session.getAttribute("user");					
+			request.setAttribute("albumsUser", albumDao.getAllbumUserByUser(user));
 			getServletContext().getRequestDispatcher(PAGE_AJOUT_PHOTO).forward(request, response);
-		} else if (requestedUrl.equals("/deconnection")) {
-			HttpSession session = request.getSession();
+		} 
+		else if (requestedUrl.equals("/addPhoto")) {
+			User user = (User) session.getAttribute("user");					
+			request.setAttribute("albumsUser", albumDao.getAllbumUserByUser(user));
+			getServletContext().getRequestDispatcher(PAGE_AJOUT_PHOTO).forward(request, response);
+		}
+		else if (requestedUrl.equals("/image-detail")) 
+		{
+			if(request.getParameter("imageId") != null) 
+			{
+				int imageId = Integer.parseInt(request.getParameter("imageId"));
+				request.setAttribute("image", imageDao.findImageById(imageId));
+			}	
+			getServletContext().getRequestDispatcher(PAGE_IMAGE_DETAIL).forward(request, response);
+		} 
+		else if (requestedUrl.equals("/deconnection")) 
+		{
+			session = request.getSession();
 			session.invalidate();
 			request.setAttribute("images", imageDao.getAll());
 			request.setAttribute("albums", albumDao.findAll());
-			getServletContext().getRequestDispatcher(PAGE_INDEX).forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/index");
 		}
 
 	}
@@ -112,9 +179,10 @@ public class UserController extends HttpServlet {
 		User user = new User();
 		Album album = new Album();
 		Image image =new Image();
-		HttpSession session = request.getSession();
-		if (requestedUrl.equals("/accueil")) {
-
+		session = request.getSession();
+			
+		if (requestedUrl.equals("/accueil")) 
+		{
 			response.setContentType("text/html;charset=UTF-8");
 
 			user.setUsername(request.getParameter("username"));
@@ -122,32 +190,46 @@ public class UserController extends HttpServlet {
 			user.setPassword(request.getParameter("password"));
 			user.setRole(request.getParameter("role"));
 
-			if (request.getParameter("username") != null && !request.getParameter("username").trim().isEmpty()) {
+			if (request.getParameter("username") != null && !request.getParameter("username").trim().isEmpty()) 
+			{
 				userDao.addUser(user);
 				getServletContext().getRequestDispatcher(PAGE_GALLERY).forward(request, response);
-			} else {
+			} 
+			else 
+			{
 				response.getWriter().print("Vous devez renseigner le nom du participant");
 			}
-		} else if (requestedUrl.equals("/login")) {
+		} 
+		else if (requestedUrl.equals("/login")) 
+		{
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			user = userDao.findUserByUsernammeAndPassword(username, password);
 
-			if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
+			if (username.equals(user.getUsername()) && password.equals(user.getPassword()))
+			{
 				session.setAttribute("username", username);
 				session.setAttribute("user", user);
+				user = (User) session.getAttribute("user");
+				request.setAttribute("albumsUser", albumDao.getAllbumUserByUser(user));
+				request.setAttribute("images", imageDao.getAll());
 				request.setAttribute("albums", albumDao.findAll());
-				getServletContext().getRequestDispatcher(PAGE_INDEX).forward(request, response);
-			} else {
+				response.sendRedirect(request.getContextPath() + "/index");
+			} 
+			else 
+			{
 				getServletContext().getRequestDispatcher(PAGE_LOGIN).forward(request, response);
 			}
-		} else if (requestedUrl.equals("/createAcount")) {
+		} 
+		else if (requestedUrl.equals("/createAcount")) 
+		{
 			String username = request.getParameter("username");
 			String password1 = request.getParameter("password1");
 			String password2 = request.getParameter("password2");
 			String email = request.getParameter("email");
 
-			if (password1.equals(password2)) {
+			if (password1.equals(password2)) 
+			{
 				user.setUsername(username);
 				user.setEmail(email);
 				user.setPassword(password1);
@@ -156,10 +238,44 @@ public class UserController extends HttpServlet {
 				userDao.addUser(user);
 
 				getServletContext().getRequestDispatcher(PAGE_LOGIN).forward(request, response);
-			} else {
+			} 
+			else 
+			{
 				System.out.println("Les mots de passes ne correspondent pas ");
 			}
-		} else if (requestedUrl.equals("/addalbum")) {
+		} 
+		else if (requestedUrl.equals("/updateuser")) 
+		{
+			String username = request.getParameter("username");
+			String password1 = request.getParameter("password1");
+			String password2 = request.getParameter("password2");
+			String email = request.getParameter("email");
+
+			if (password1.equals(password2)) 
+			{
+				user.setUsername(username);
+				user.setEmail(email);
+				user.setPassword(password1);
+				user.setRole("user");
+				session.setAttribute("username", username);
+				
+				int userId= Integer.parseInt(request.getParameter("userId"));
+				
+				for(User u: userDao.findAll()) {
+					if(u.getUserid() == userId) {
+						userDao.updateUser(user);
+					}
+				}
+
+				getServletContext().getRequestDispatcher(PAGE_USERS_LIST).forward(request, response);
+			} 
+			else 
+			{
+				System.out.println("Les mots de passes ne correspondent pas ");
+			}
+		} 
+		else if (requestedUrl.equals("/addalbum")) 
+		{
 			String albumName = request.getParameter("albumName");
 			boolean shared = request.getParameter("shared") != null;
 
@@ -169,15 +285,17 @@ public class UserController extends HttpServlet {
 			album.setShared(shared);
 			albumDao.addAlbum(album);
 			request.setAttribute("albums", albumDao.findAll());
-			getServletContext().getRequestDispatcher(PAGE_INDEX).forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/index");
 
-		} else if (requestedUrl.equals("/addPhoto")) {
+		} 
+		else if (requestedUrl.equals("/update") || requestedUrl.equals("/addPhoto")) 
+		{
 			
 			//Date object
 			 Date date= new Date();
 			 long time = date.getTime();
-			 Timestamp created = new Timestamp(time);
-			
+			 Timestamp dat = new Timestamp(time);
+
 			String title = request.getParameter("title");
 			String description = request.getParameter("description");
 			int heigth = Integer.parseInt(request.getParameter("heigth"));
@@ -185,44 +303,49 @@ public class UserController extends HttpServlet {
 			int albumId = Integer.parseInt(request.getParameter("album"));
 			album = albumDao.findAlbumById(albumId);
 			user = (User)session.getAttribute("user");
-			System.out.println(album);
-
 			Part part = request.getPart("photo");
 			String imageName = getimageName(part);
 			String path = imageName;
 			// Si on a bien un fichier
-			if (imageName != null && !imageName.isEmpty()) {
-				//String nomChamp = part.getName();
-				
+			if (imageName != null && !imageName.isEmpty()) 
+			{
 				// Corrige un bug du fonctionnement d'Internet Explorer
 				imageName = imageName.substring(imageName.lastIndexOf('/') + 1)
 						.substring(imageName.lastIndexOf('\\') + 1);
 				// On écrit définitivement le fichier sur le disque
 				ecrireFichier(part, imageName, CHEMIN_FICHIERS);
-
-				//request.setAttribute(nomChamp, imageName);
 			}
-			
 			image.setTitle(title);
 			image.setDescription(description);
 			image.setHeigth(heigth);
 			image.setWidth(width);
-			image.setCreated(created);
 			image.setUser(user);
 			image.setAlbum(album);
 			image.setImagePath(path);
 			
-			imageDao.addImage(image);
-			request.setAttribute("images", imageDao.getAll());
-			List<Image> imgs = imageDao.getAll();
-			for(Image img: imgs) {
-				System.out.println(img.toString());
+			if(request.getParameter("imageId") != null)
+			{
+				int imageId = Integer.parseInt(request.getParameter("imageId"));
+				System.out.println(imageId);
+				for(Image img: imageDao.getAll()) 
+				{
+					if(img.getImageID() == imageId)
+					{
+						img.setModified(dat);
+						imageDao.updateImage(image);
+					}
+				}			
 			}
+			else 
+			{
+				image.setCreated(dat);
+				imageDao.addImage(image);
+			}
+						
 			request.setAttribute("images", imageDao.getAll());
 			request.setAttribute("albums", albumDao.findAll());
-			getServletContext().getRequestDispatcher(PAGE_INDEX).forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/index");
 		}
-
 	}
 
 	private void ecrireFichier(Part part, String imageName, String chemin) throws IOException {
@@ -251,8 +374,10 @@ public class UserController extends HttpServlet {
 	}
 
 	private static String getimageName(Part part) {
-		for (String contentDisposition : part.getHeader("content-disposition").split(";")) {
-			if (contentDisposition.trim().startsWith("filename")) {
+		for (String contentDisposition : part.getHeader("content-disposition").split(";")) 
+		{
+			if (contentDisposition.trim().startsWith("filename")) 
+			{
 				return contentDisposition.substring(contentDisposition.indexOf('=') + 1).trim().replace("\"", "");
 			}
 		}

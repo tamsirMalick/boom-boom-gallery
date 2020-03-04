@@ -151,13 +151,6 @@ public class User implements Serializable {
 
 		return image;
 	}
-
-	@Override
-	public String toString() {
-		return "User [userid=" + userid + ", email=" + email + ", password=" + password + ", photo="+", role=" + role + ", username=" + username + ", albums=" + albums
-				+ ", images=" + images + "]";
-	}
 	
 	
-
 }

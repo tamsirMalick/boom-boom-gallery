@@ -21,8 +21,8 @@
 			<div class="container">
 				<div class="container pp-section">
 					<div class="row">
-						<div class="col-md-9 col-sm-12 px-0">
-							<h1 class="h3">Ici c'est BOOM-BOOM GALLERY, vous pouvez ajoutez et partager tous vos photos</h1>
+						<div class="col-md-9 col-sm-12 col-lg-12 px-0">
+							<h1 class="h3">BOOM-BOOM GALLERY, ici vous pouvez ajoutez et partager tous vos photos</h1>
 						</div>
 					</div>
 				</div>
@@ -36,7 +36,7 @@
 											<a class="btn btn-primary" href="addalbum">+ ajouter un album</a> 
 											<a class="btn btn-primary" href="addPhoto">+ ajouter une photo</a>
 											<div class="row">
-											<a class="btn btn-outline-primary" href="gallery" data-filter="food">Tous les photos</a>
+												<a class="btn btn-outline-primary" href="gallery">Tous les photos</a>
 												<c:forEach var="album" items="${albums}">
 													<a class="btn btn-outline-primary" href="gallery?album=${album.albumName}">${album.albumName}</a>
 												</c:forEach>
@@ -44,9 +44,10 @@
 										</div>
 									</c:when>
 									<c:otherwise>
-										<c:forEach var="album" items="${albums}">
+										<a class="btn btn-outline-primary" href="gallery">Tous les photos</a>
+										<c:forEach var="album" items="${albums}">			
 											<c:if test="${album.shared}">
-												<a class="btn btn-outline-primary" href="gallery?album=${album.albumName}" data-filter="food">${album.albumName}</a>
+												<a class="btn btn-outline-primary" href="gallery?album=${album.albumName}">${album.albumName}</a>
 											</c:if>
 										</c:forEach>
 									</c:otherwise>
@@ -57,48 +58,44 @@
 					</div>
 				</div>
 				<div class="container px-0">
-					<div class="pp-gallery">
+					<div class="pp-gallery ">
 						<div class="card-columns">
 							<c:choose>
 								<c:when test="${!empty requestScope.albumName}">
-									<c:forEach var="image" items="${images}">
+									<c:forEach var="image" items="${images}">		
 										<c:if test="${requestScope.albumName == image.album.albumName}">
 											<div class="card" data-groups="[&quot;${image.album.albumName }&quot;]">
-											<a href="image-detail.html">
-												<figure class="pp-effect">
-													<img class="img-fluid" src="images/${image.imagePath}"alt="${image.title}" />
-													<figcaption>
-														<div class="h4">${image.title}</div>
-														<p>${image.description}</p>
-													</figcaption>
-												</figure>
-											</a>
-										</div>
+												<a href="image-detail?imageId=${image.imageID}">
+													<figure class="pp-effect">
+														<img class="img-fluid" src="images/${image.imagePath}"alt="${image.title}" />
+														<figcaption>
+															<div class="h4">${image.album.albumName}</div>
+															<p>Publié par : ${image.album.user.username}</p>
+														</figcaption>									
+													</figure>							
+												</a>				
+											</div>
 										</c:if>
-
 									</c:forEach>
 								</c:when>
-
 								<c:otherwise>
 									<c:forEach var="image" items="${images}">
 										<c:if test="${image.album.shared}">
 											<div class="card" data-groups="[&quot;${image.album.albumName }&quot;]">
-												<a href="image-detail.html">
+												<a href="image-detail?imageId=${image.imageID}">
 													<figure class="pp-effect">
 														<img class="img-fluid" src="images/${image.imagePath}" alt="${image.title}" />
 														<figcaption>
-															<div class="h4">${image.title}</div>
-															<p>${image.description}</p>
+															<div class="h4">${image.album.albumName}</div>
+															<p>Publié par : ${image.album.user.username}</p>
 														</figcaption>
 													</figure>
 												</a>
 											</div>
 										</c:if>
-
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
-
 						</div>
 					</div>
 				</div>

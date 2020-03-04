@@ -12,7 +12,8 @@ import java.util.List;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Album.findAll", query="SELECT a FROM Album a"),
-	@NamedQuery(name="getAllPhotoByAlbumName", query="SELECT a.images FROM Album a WHERE a.albumName=:name")
+	@NamedQuery(name="getAllPhotoByAlbumName", query="SELECT a.images FROM Album a WHERE a.albumName=:name"),
+	@NamedQuery(name="Album.getAllbumByUser", query="SELECT a FROM Album a WHERE a.user=:user")
 	})
 public class Album implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -93,11 +94,4 @@ public class Album implements Serializable {
 		return image;
 	}
 
-	@Override
-	public String toString() {
-		return "Album [albumId=" + albumId + ", albumName=" + albumName + ", shared=" + shared + ", user=" + user
-				+ ", images=" + images + "]";
-	}
-
-	
 }

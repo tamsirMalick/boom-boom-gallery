@@ -151,17 +151,6 @@ public class Image implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	@Override
-	public String toString() {
-		return "Image [imageID=" + imageID + ", created=" + created + ", description=" + description + ", heigth="
-				+ heigth + ", imagePath=" + imagePath + ", modified=" + modified + ", title=" + title + ", width="
-				+ width + ", album=" + album + ", user=" + user + "]";
-	}
-
-	
-	
-	
+	}	
 
 }

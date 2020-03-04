@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import entities.Album;
+import entities.User;
 
 @Stateless
 public class AlbumDaoImp implements IAlbumDao {
@@ -51,6 +52,13 @@ public class AlbumDaoImp implements IAlbumDao {
 				.setParameter("albumName", albumName)
 				.getResultList();
 
+	}
+
+	@Override
+	public List<Album> getAllbumUserByUser(User user) {
+		return em.createNamedQuery("Album.getAllbumByUser", Album.class)
+				.setParameter("user", user)
+				.getResultList();
 	}
 
 }

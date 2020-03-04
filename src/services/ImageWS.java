@@ -37,8 +37,8 @@ public class ImageWS {
 	}
 	
 	@WebMethod(operationName="findImageById")
-	public void findImageById(int imageId) {
-		dao.findImageById(imageId);
+	public Image findImageById(int imageId) {
+		return dao.findImageById(imageId);
 	}
 	
 	@WebMethod(operationName="findAll")
