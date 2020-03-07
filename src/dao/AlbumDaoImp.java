@@ -19,20 +19,19 @@ public class AlbumDaoImp implements IAlbumDao {
 
 	@Override
 	public void addAlbum(Album album) {
-		em.persist(album);
-		
+		em.persist(album);	
 	}
 
 	@Override
 	public void updateAlbum(Album album) {
 		em.merge(album);
+		em.flush();
 		
 	}
 
 	@Override
 	public void deleteAlbum(Album album) {
-		em.remove(em.merge(album));
-		
+		em.remove(em.merge(album));	
 	}
 
 	@Override
@@ -51,7 +50,6 @@ public class AlbumDaoImp implements IAlbumDao {
 		return em.createNamedQuery("Album.getAllPhotoByAlbumName", Album.class)
 				.setParameter("albumName", albumName)
 				.getResultList();
-
 	}
 
 	@Override

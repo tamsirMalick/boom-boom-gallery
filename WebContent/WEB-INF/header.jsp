@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,13 +28,14 @@
                   <c:choose>
                   	<c:when test="${!empty sessionScope.username }">
                   		<li class="nav-item"><a class="nav-link" href="deconnection">Se déconnecter</a></li>
+                  		<li class="nav-item ml-3" style="text-transform: capitalize"><a href="#"><b>${fn:toLowerCase(sessionScope.username)}</b></a></li>
                   	</c:when>
                   	<c:otherwise>
                   	 	<li class="nav-item"><a class="nav-link" href="login">S'identifier</a></li>
                   		<li class="nav-item"><a class="nav-link" href="createAcount">S'inscrire</a></li> 
                   	</c:otherwise>
-                  </c:choose>        
-                </ul>
+                  </c:choose>  
+	              </ul>
               </div>
             </div>
           </nav>

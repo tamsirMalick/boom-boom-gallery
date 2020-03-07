@@ -18,8 +18,8 @@
                 <div id="acount-column" class="col-md-6">
                     <div id="acount-box" class="col-md-12">
                     <c:choose>
-                    	<c:when test="${!empty use }">
-                    		<form id="acount-form" class="form" action="createAcount" method="post" enctype="multipart/form-data">
+                    <c:when test="${!empty use }">
+                    		<form id="acount-form" class="form" action="updateuser" method="post" enctype="multipart/form-data">
 	                            <h3 class="text-center text-info">Modifier l'utilisateur</h3>
 	                            <div class="form-group">
 	                                <label for="username" class="text-info">Username:</label><br>
@@ -30,36 +30,13 @@
 	                                <label for="username" class="text-info">Email:</label><br>
 	                                <input type="email" name="email" id="email" value="${use.email }" class="form-control">
 	                            </div>
-
-	                            <div class="form-group">
-	                                <label for="password" class="text-info">Mot de passe:</label><br>
-	                                <input type="password" name="password1" id="password1" value="${use.password }" class="form-control">
-	                            </div>
-	                            <div class="form-group">
-	                                <label for="password" class="text-info">Confirmer le mot de passe:</label><br>
-	                                <input type="password" name="password2" id="password1" value="${use.password }" class="form-control">
-	                            </div>
-	                            <div class="form-group">
-	                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Modifier">
-	                            </div>
-                        	</form>
-                    	</c:when>
-                    	<c:when test="${!empty use && sessionScope.user.role == admin }">
-                    		<form id="acount-form" class="form" action="createAcount" method="post" enctype="multipart/form-data">
-	                            <h3 class="text-center text-info">Modifier l'utilisateur</h3>
-	                            <div class="form-group">
-	                                <label for="username" class="text-info">Username:</label><br>
-	                                <input type="text" name="username" id="username" value="${use.username }" class="form-control">
-	                            </div>
-	                            
-	                            <div class="form-group">
-	                                <label for="username" class="text-info">Email:</label><br>
-	                                <input type="email" name="email" id="email" value="${use.email }" class="form-control">
-	                            </div>
+	                            <c:if test="${sessionScope.user.role == 'admin' }">
 	                            	<div class="form-group">
 		                                <label for="role" class="text-info">Role:</label><br>
 		                                <input type="text" name="role" id="role" value="${use.role}" class="form-control">
-	                           		 </div>	                            
+	                           		 </div>	
+	                            </c:if>
+	                            	       	                            
 	                            <div class="form-group">
 	                                <label for="password" class="text-info">Mot de passe:</label><br>
 	                                <input type="password" name="password1" id="password1" value="${use.password }" class="form-control">

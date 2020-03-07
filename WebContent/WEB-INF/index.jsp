@@ -35,6 +35,7 @@
 										<div class="container">
 											<a class="btn btn-primary" href="addalbum">+ ajouter un album</a> 
 											<a class="btn btn-primary" href="addPhoto">+ ajouter une photo</a>
+											<a class="btn btn-primary" href="user-album">mes albums</a> 
 											<div class="row">
 												<a class="btn btn-outline-primary" href="gallery">Tous les photos</a>
 												<c:forEach var="album" items="${albums}">

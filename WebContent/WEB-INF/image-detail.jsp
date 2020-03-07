@@ -24,13 +24,13 @@
 					<img class="img-fluid mt-4" src="images/${image.imagePath}" />
 					<div class="row mt-5">
 						<div class="col-md-6">
-							<div class="h5">INFOS</div>
+							<div class="h5">TAGS</div>
 							<div class="mr-1 badge badge-primary">Auteur : ${image.user.username}</div>
 							<div class="mr-1 badge badge-primary">Titre : ${image.title}</div>
 							<div class="mr-1 badge badge-primary">Album : ${image.album.albumName}</div>
 							<div class="mr-1 badge badge-primary">Ajouté le : ${image.created}</div>
 							
-							<c:if test="${!empty sessionScope.username && image.user.username == sessionScope.username }">
+							<c:if test="${!empty sessionScope.username || !empty sessionScope.user.role == 'admin' && image.user.username == sessionScope.username }">
 								<div class="pt-4">
 									<a class="mr-1 badge badge-danger" href="delete?imageId=${image.imageID}" onclick="return confirm('En êtes vous sûr de vouloir supprimé cette photo ?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Supprimer cette photo</a>
 									<a class="mr-1 badge badge-info" href="update?imageId=${image.imageID}"><i class="fa fa-edit mr-2" aria-hidden="true"></i>Modifier cette photo</a>

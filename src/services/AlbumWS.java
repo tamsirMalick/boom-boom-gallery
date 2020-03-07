@@ -21,25 +21,25 @@ public class AlbumWS {
 	
 	@WebMethod(operationName="addAlbum")
 	@Oneway
-	public void addAlbum(Album Album) {
-		dao.addAlbum(Album);
+	public void addAlbum(Album album) {
+		dao.addAlbum(album);
 	}
 	
 	@WebMethod(operationName="updateAlbum")
 	@Oneway
-	public void updateAlbum(Album Album) {
-		dao.updateAlbum(Album);
+	public void updateAlbum(Album album) {
+		dao.updateAlbum(album);
 	}
 	
 	@WebMethod(operationName="deleteAlbum")
 	@Oneway
-	public void deleteAlbum(Album Album) {
-		dao.deleteAlbum(Album);
+	public void deleteAlbum(Album album) {
+		dao.deleteAlbum(album);
 	}
 	
 	@WebMethod(operationName="findAlbumById")
-	public Album findAlbumById(int AlbumId) {
-		return dao.getAlbumById(AlbumId);
+	public Album findAlbumById(int albumId) {
+		return dao.getAlbumById(albumId);
 	}
 	
 	@WebMethod(operationName="findAll")

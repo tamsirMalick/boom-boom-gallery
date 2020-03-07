@@ -17,20 +17,50 @@
             <div id="acount-row" class="row justify-content-center align-items-center">
                 <div id="acount-column" class="col-md-6">
                     <div id="acount-box" class="col-md-12">
-                        <form id="acount-form" class="form" action="addalbum" method="post" enctype="multipart/form-data">
-                            <h3 class="text-center text-info">Ajouter un nouveau album </h3>
-                            <div class="form-group">
-                                <label for="albunName" class="text-info">Nom de l'album:</label><br>
-                                <input type="text" name="albumName" id="albumName" class="form-control">
-                               
-                            </div>
-							<div class="checkbox">
-                             	<label><input type="checkbox" name="shared" id="shared" value="" class="form-control">Partager</label>
-							</div>
-                            <div class="form-group">
-                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Ajouter">
-                            </div>
-                        </form>
+                    <c:choose>
+                    	<c:when test="${!empty album}">
+                    		<form id="acount-form" class="form" action="updatealbum" method="post" enctype="multipart/form-data">
+	                            <h3 class="text-center text-info">Modifier cet album </h3>
+	                            <div class="form-group">
+	                                <label for="albunName" class="text-info">Nom de l'album:</label><br>
+	                                <input type="text" name="albumName" id="albumName" value="${album.albumName }" class="form-control">
+	                               
+	                            </div>
+	                            <c:choose>
+	                            	<c:when test="${album.shared == true}">
+	                            		<div class="checkbox">
+	                             			<label><input type="checkbox" name="shared" id="shared" checked class="form-control">Partager</label>
+										</div>
+	                            	</c:when>
+	                            	 <c:otherwise>
+	                            	<div class="checkbox">
+	                             		<label><input type="checkbox" name="shared" id="shared" class="form-control">Partager</label>
+									</div>
+	                            </c:otherwise>
+	                            </c:choose>
+		
+	                            <div class="form-group">
+	                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Modifier">
+	                            </div>
+                        	</form>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<form id="acount-form" class="form" action="addalbum" method="post" enctype="multipart/form-data">
+	                            <h3 class="text-center text-info">Ajouter un nouveau album </h3>
+	                            <div class="form-group">
+	                                <label for="albunName" class="text-info">Nom de l'album:</label><br>
+	                                <input type="text" name="albumName" id="albumName" class="form-control">
+	                               
+	                            </div>
+								<div class="checkbox">
+	                             	<label><input type="checkbox" name="shared" id="shared" value="" class="form-control">Partager</label>
+								</div>
+	                            <div class="form-group">
+	                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Ajouter">
+	                            </div>
+                       	 </form>
+                    	</c:otherwise>
+                    </c:choose>
                     </div>
                 </div>
             </div>
