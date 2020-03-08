@@ -32,6 +32,7 @@
 							<div class="col-sm-12">
 								<c:choose>
 									<c:when test="${!empty sessionScope.username}">
+									<!-- Ces vus ne s'affichent que si l'utilisateur est authentifier -->
 										<div class="container">
 											<a class="btn btn-primary" href="addalbum">+ ajouter un album</a> 
 											<a class="btn btn-primary" href="addPhoto">+ ajouter une photo</a>
@@ -45,6 +46,7 @@
 										</div>
 									</c:when>
 									<c:otherwise>
+									<!-- Si l'utilisateur n'est pas authetifier, je lui affiche seulement les albums qui sont partagés -->
 										<a class="btn btn-outline-primary" href="gallery">Tous les photos</a>
 										<c:forEach var="album" items="${albums}">			
 											<c:if test="${album.shared}">
@@ -63,6 +65,7 @@
 						<div class="card-columns">
 							<c:choose>
 								<c:when test="${!empty requestScope.albumName}">
+								<!-- Si l'utilisateur click sur un album, affcher seulement les images qui sont dans cet album -->
 									<c:forEach var="image" items="${images}">		
 										<c:if test="${requestScope.albumName == image.album.albumName}">
 											<div class="card" data-groups="[&quot;${image.album.albumName }&quot;]">
@@ -80,6 +83,7 @@
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
+								<!-- Sino l'utilisateur voit tous les images partagés de tous les utilisateur -->
 									<c:forEach var="image" items="${images}">
 										<c:if test="${image.album.shared}">
 											<div class="card" data-groups="[&quot;${image.album.albumName }&quot;]">
@@ -113,9 +117,7 @@
 						<a class="pp-instagram btn btn-link" href="#"><i class="fa fa-instagram fa-2x " aria-hidden="true"></i></a>
 					</div>
 					<div class="col-md-12">
-						<p class="mt-3">Copyright &copy; Photo Perfect. All rights reserved.
-						<br>Design<a class="credit" href="https://templateflip.com" target="_blank">TemplateFlip</a>
-						</p>
+						<p class="mt-3">Copyright &copy; BOOM-BOOM-GALLERY. All rights reserved.</p>
 					</div>
 				</div>
 			</div>

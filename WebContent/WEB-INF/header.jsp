@@ -23,14 +23,20 @@
                 <ul class="navbar-nav ml-auto">
                   <li class="nav-item active"><a class="nav-link" href="index">Accueil</a>
                   </li>
-                  <li class="nav-item dist-c"><a class="nav-link" href="contact">Contact</a>
+                  <li class="nav-item dist-c"><a class="nav-link" href="#">Contact</a>
                   </li>
+                  <!-- Le bouton gerer ne s'affiche que si l'utilisateur a un status admin -->
+                  <c:if test="${sessionScope.user.role == 'admin' }">
+                  	<li class="nav-item dist-c"><a class="nav-link" href="userslist">Gérer</a></li>
+                  </c:if>
                   <c:choose>
                   	<c:when test="${!empty sessionScope.username }">
+                  	<!-- S'il y'a une session afficher le bouton deconnecter seulement et le username de l'utilisateur -->
                   		<li class="nav-item"><a class="nav-link" href="deconnection">Se déconnecter</a></li>
                   		<li class="nav-item ml-3" style="text-transform: capitalize"><a href="#"><b>${fn:toLowerCase(sessionScope.username)}</b></a></li>
                   	</c:when>
                   	<c:otherwise>
+                  	<!-- S'il n'y a pas de session afficher le bouton se connecter et s'inscrire -->
                   	 	<li class="nav-item"><a class="nav-link" href="login">S'identifier</a></li>
                   		<li class="nav-item"><a class="nav-link" href="createAcount">S'inscrire</a></li> 
                   	</c:otherwise>

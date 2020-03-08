@@ -21,12 +21,15 @@
                             <h3 class="text-center text-info">Connexion</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Username:</label><br>
-                                <input type="text" name="username" id="username" class="form-control">
+                                <input type="text" name="username" id="username" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Mot de passe:</label><br>
-                                <input type="text" name="password" id="password" class="form-control">
+                                <input type="text" name="password" id="password" class="form-control" required>
                             </div>
+                            <c:if test="${!empty requestScope.error}">
+                            	<p>username ou mot de passe incorrect</p>
+                            </c:if>
                             <div class="form-group">
                                 <label for="remember-me" class="text-info"><span>Se souvenir de moi</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="Connecter">

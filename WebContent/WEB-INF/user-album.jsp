@@ -40,6 +40,9 @@
 					<tr>
 						<th class="column1">AlbumID</th>
 						<th>NOM ALBUM</th>
+						<c:if test="${sessionScope.user.role == 'admin' }">
+							<th>PROPRIETAIRE</th>
+						</c:if>
 						<th>PARTAGER</th>
 						<th>ACTIONS</th>
 					</tr>
@@ -47,10 +50,13 @@
 				<tbody>
 					<tr>
 						<c:forEach var="album" items="${albums}">
-							<c:if test="${album.user.userid == sessionScope.user.userid }">
+							<c:if test="${album.user.userid == sessionScope.user.userid || sessionScope.user.role == 'admin'}">
 								<tr>
 									<td><c:out value="${album.albumId}" /></td>
 									<td><c:out value="${album.albumName}" /></td>
+									<c:if test="${sessionScope.user.role == 'admin' }">
+										<td><c:out value="${album.user.username}" /></td>
+									</c:if>
 									<c:choose>
 										<c:when test="${album.shared == true }">
 											<td>partagé</td>
