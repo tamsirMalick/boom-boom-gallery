@@ -25,7 +25,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Mot de passe:</label><br>
-                                <input type="text" name="password" id="password" class="form-control" required>
+                                <input type="password" name="password" id="password" class="form-control" required>
                             </div>
                             <c:if test="${!empty requestScope.error}">
                             	<p>username ou mot de passe incorrect</p>
