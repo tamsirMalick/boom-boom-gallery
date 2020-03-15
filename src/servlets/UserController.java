@@ -45,7 +45,8 @@ public class UserController extends HttpServlet {
     private static final String PAGE_USER_ALBUM = "/WEB-INF/user-album.jsp";
 
     private static final int TAILLE_TAMPON = 10240;
-    private static final String CHEMIN_FICHIERS = "C:\\JavaEE\\java_ee_project\\Boomboom_gallery\\WebContent\\images\\";
+    private static final String CHEMIN_FICHIERS = "C:\\JavaEE\\java_ee_project\\Boomboom_gallery\\WebContent\\images\\"; // A
+															 // changer
 
     private HttpSession session;
 
@@ -299,7 +300,6 @@ public class UserController extends HttpServlet {
 			user.setEmail(email);
 			user.setPassword(password1);
 			user.setRole(role);
-			session.setAttribute("username", username);
 			userDao.updateUser(user);
 			request.setAttribute("users", userDao.findAll());
 			response.sendRedirect(request.getContextPath() + "/userslist");

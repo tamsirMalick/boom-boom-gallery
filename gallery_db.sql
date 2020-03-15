@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  sam. 07 mars 2020 à 12:28
+-- Généré le :  Dim 15 mars 2020 à 12:12
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -44,8 +44,7 @@ CREATE TABLE IF NOT EXISTS `album` (
 
 INSERT INTO `album` (`album_id`, `album_name`, `SHARED`, `userid`) VALUES
 (1, 'vacance', 1, 1),
-(2, 'tabaski', 1, 1),
-(3, 'Jagwar', 1, 1),
+(3, 'Jagwar', 0, 1),
 (4, 'tabaski', 1, 2),
 (5, 'korite', 0, 2);
 
@@ -122,9 +121,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`USERID`, `EMAIL`, `PASSWORD`, `PHOTOURL`, `ROLE`, `USERNAME`) VALUES
-(1, 'malickmbengue95@hotmail.fr', 'aa', NULL, 'admin', 'admin'),
-(2, 'malickmbengue95@hotmail.fr', 'qq', NULL, 'user', 'Malik'),
-(3, 'aicha@gmail.com', 'aa', NULL, 'user', 'aicha');
+(1, 'admin@boomboom.com', 'passer', NULL, 'admin', 'admin'),
+(2, 'malickmbengue95@hotmail.fr', 'secret', NULL, 'user', 'Malik'),
+(3, 'aicha@gmail.com', 'passer1234', NULL, 'user', 'aicha');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
